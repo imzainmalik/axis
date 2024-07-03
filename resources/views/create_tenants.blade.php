@@ -41,29 +41,31 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-12 py-4">
+                    <div class="row">
+                    <div class="col-md-6">
                         <label for="">First name</label>
                         <input type="text" name="first_name" required class="form-control">
                     </div>
-                    <div class="py-3">
+                    <div class="col-md-6">
                         <label for="">last name</label>
                         <input type="text" name="last_name" required class="form-control">
                     </div>
-                    <div class="py-3">
+                    <div class="col-md-6">
                         <label for="">Image</label>
                         <input type="file" name="image" required class="form-control">
                     </div>
-                    <div class="py-3">
+                    <div class="col-md-6">
                         <label for="">Email</label>
                         <input type="email" name="email" required class="form-control">
                     </div>
-                    <div class="py-3">
+                    <div class="col-md-6">
                         <label for="">Phone number</label>
                         <input type="phone" name="phone_number" required class="form-control">
                     </div>
-                    <div class="py-3">
+                    <div class="col-md-6">
                         <label for="">Date of birth</label>
                         <input type="date" name="date_of_birth" required class="form-control">
+                    </div>
                     </div>
                     <div class="row">
                         <div class="col-6 py-3">
@@ -75,8 +77,8 @@
                             <input type="date" name="lease_end_date" required class="form-control">
                         </div>
                     </div>
-                    <div class="py-3">
-                        <button class="btn btn-primary">Create Tenant</button>
+                    <div class="">
+                        <button class="red-btn">Create Tenant</button>
                     </div>
                 </form>
             </div>
