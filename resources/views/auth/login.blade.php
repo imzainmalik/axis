@@ -1,6 +1,7 @@
-@extends('layouts.app')
+<link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/layout.css') }}">
+<link rel="icon" href="{{ asset('assets/css/layout.css') }}" type="image/x-icon">
 
-@section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -69,5 +70,4 @@
             </div>
         </div>
     </div>
-</div>
-@endsection
+</div> 
