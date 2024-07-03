@@ -18,6 +18,15 @@ $(document).ready(function() {
         $(".overlay").fadeIn();
     });
 
+
+    $(".dropdown>a").click(function() {
+        var $dropdownList = $(this).siblings(".dropdown-list");
+        // Close all dropdown-lists except the one that belongs to the clicked dropdown
+        $(".dropdown-list").not($dropdownList).slideUp();
+        // Toggle the dropdown-list that is a sibling of the clicked anchor tag
+        $dropdownList.slideToggle();
+    });
+
     $(".signUp").click(function() {
         $(".signUpPop").fadeIn();
         $(".overlay").fadeIn();
@@ -118,14 +127,14 @@ $(window).on("load", function() {
     var currentUrl = window.location.href.substr(
         window.location.href.lastIndexOf("/") + 1
     );
-    $("ul.menu li a").each(function() {
+    $("ul.menu li a,.p-nav li a").each(function() {
         var hrefVal = $(this).attr("href");
         if (hrefVal == currentUrl) {
             $(this).removeClass("active");
             $(this)
                 .closest("li")
                 .addClass("active");
-            $("ul.menu li.first").removeClass("active");
+            $("ul.menu li.first,.p-nav li.first").removeClass("active");
         }
     });
 });
@@ -157,28 +166,58 @@ function goToScroll(e) {
 }
 
 // For Image zoom In/ zoom out
-document.addEventListener('DOMContentLoaded', function() {
-    var image = document.getElementById('image');
-    var zoomInButton = document.getElementById('zoomIn');
-    var zoomOutButton = document.getElementById('zoomOut');
-    var scale = 1;
-    var scaleStep = 0.1;
-    var maxScale = 3;
-    var minScale = 0.5;
+// document.addEventListener('DOMContentLoaded', function() {
+//     var image = document.getElementById('image');
+//     var zoomInButton = document.getElementById('zoomIn');
+//     var zoomOutButton = document.getElementById('zoomOut');
+//     var scale = 1;
+//     var scaleStep = 0.1;
+//     var maxScale = 3;
+//     var minScale = 0.5;
 
-    // Zoom In functionality
-    zoomInButton.addEventListener('click', function() {
-        if (scale < maxScale) {
-            scale += scaleStep;
-            image.style.transform = 'scale(' + scale + ')';
-        }
-    });
+//     // Zoom In functionality
+//     zoomInButton.addEventListener('click', function() {
+//         if (scale < maxScale) {
+//             scale += scaleStep;
+//             image.style.transform = 'scale(' + scale + ')';
+//         }
+//     });
 
-    // Zoom Out functionality
-    zoomOutButton.addEventListener('click', function() {
-        if (scale > minScale) {
-            scale -= scaleStep;
-            image.style.transform = 'scale(' + scale + ')';
-        }
-    });
-});
+//     // Zoom Out functionality
+//     zoomOutButton.addEventListener('click', function() {
+//         if (scale > minScale) {
+//             scale -= scaleStep;
+//             image.style.transform = 'scale(' + scale + ')';
+//         }
+//     });
+// });
+
+// Password checker
+function passwordCheck(password) {
+    if (password.length >= 8) strength += 1;
+    if (password.match(/(?=.*[0-9])/)) strength += 1;
+    if (password.match(/(?=.*[!,%,&,@,#,$,^,*,?,_,~,<,>,])/)) strength += 1;
+    if (password.match(/(?=.*[a-z])/)) strength += 1;
+  
+    displayBar(strength);
+  }
+  
+  function displayBar(strength) {
+    $(".password-strength-group").attr("data-strength", strength);
+  }
+  
+  $("#signupInputPassword").keyup(function () {
+    strength = 0;
+    var password = $(this).val();
+    passwordCheck(password);
+  });
+
+// Show Password
+function myFunction() {
+    var x = document.getElementById("signupInputPassword");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
