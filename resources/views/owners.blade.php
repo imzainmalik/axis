@@ -19,17 +19,17 @@
             <div class="container-fluid">
                 
                 <div class="col-md-4">
-                    <div class="tenant-box">
+                    <div class="tenant-box create-owner">
                         <div class="txt">
                             <h4>{{ $owners->count() }} <span>Owners</span></h4>
-                            <a href="{{ route('add_owners') }}" class="btn btn-primary text-white">Create Owners</a>
+                            <a href="{{ route('add_owners') }}" class="black-btn">Create Owners</a>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="one-row-elem">
-                            <div class="property-search">
+                            <!-- <div class="property-search">
                                 <input type="search" placeholder="Search Owners">
                                 <button><i class="fas fa-search"></i></button>
                             </div>
@@ -39,7 +39,7 @@
                                     <li class="first"><a href="javascript:;">Sort By:Area</a></li>
                                     <li class="last"><a href="javascript:;">Sort By:Date</a></li>
                                 </ul>
-                            </ul>
+                            </ul> -->
                         </div>
                         <table class="table table-hover data-table">
                             <thead>

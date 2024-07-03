@@ -18,7 +18,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="one-row-elem">
+                        <!-- <div class="one-row-elem">
                             <div class="property-search">
                                 <input type="search" placeholder="Search Property">
                                 <button><i class="fas fa-search"></i></button>
@@ -30,7 +30,7 @@
                                     <li class="last"><a href="javascript:;">Sort By:Date</a></li>
                                 </ul>
                             </ul>
-                        </div>
+                        </div> -->
                         <table class="table table-hover data-table">
                            
                                 <thead>

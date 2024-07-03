@@ -15,10 +15,10 @@
         </div>  
 
         <div class="col-md-4">
-            <div class="tenant-box">
+            <div class="tenant-box create-owner">
                 <div class="txt">
                     <h4>{{ $notes->count() }} <span>All Notes</span></h4>
-                    <a href="{{ route('create_notes') }}" class="btn btn-primary text-white">Create Notes</a>
+                    <a href="{{ route('create_notes') }}" class="black-btn">Create Notes</a>
                 </div>
             </div>
         </div>
