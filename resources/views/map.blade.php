@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="hello">
-                            <h6>All Leases!</h6>
+                            <h6>Property Map!</h6>
                         </div>
                     </div>
                     @include('includes.sub_header')
@@ -18,8 +18,8 @@
             <div class="card-header">
                 <h3>Property Map</h3>
             </div>
-            <div class="card-header">
-                <div id="map" style="height: 500px; width: 100%;"></div>
+            <div class="card-body">
+                <div id="map" style="height: 713px; width: 100%;"></div>
             </div>
         </div>
     </div>
@@ -52,42 +52,57 @@
             const map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 12,
                 center: {
-                    lat: 38.8977263,
-                    lng: -77.0363089
+                    lat: 38.89511,
+                    lng: -77.03637
                 }
             });
 
-            const address = "{{ $property->address }}";
-            const geocodeUrl =
-                `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key={{ env('GOOGLE_MAPS_API_KEY') }}`;
+            const properties = @json($properties);
 
-            const response = await fetch(geocodeUrl);
-            const data = await response.json();
+            for (const property of properties) {
+                const address = property.address;
+                const geocodeUrl =
+                    `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key={{ env('GOOGLE_MAPS_API_KEY') }}`;
+                try {
+                    const response = await fetch(geocodeUrl);
+                    const data = await response.json();
 
-            if (data.status === 'OK') {
-                const location = data.results[0].geometry.location;
-                // console.log(location);
-                const marker = new google.maps.Marker({
-                    position: {
-                        lat: location.lat,
-                        lng: location.lng
-                    },
-                    map: map,
-                    title: '{{ $property->name }}'
-                });
+                    if (data.status === 'OK') {
+                        const location = data.results[0].geometry.location;
+                        const marker = new google.maps.Marker({
+                            position: {
+                                lat: parseFloat(location.lat),
+                                lng: parseFloat(location.lng)
+                            },
+                            map: map,
+                            title: property.property_name
+                        });
 
-                marker.addListener('click', function() {
-                    $.ajax({
-                        url: '/map/property/' + {{ $property->id }},
-                        method: 'GET',
-                        success: function(response) {
-                            console.log(response.address);
-                            $('#propertyModalLabel').text(response.property_name);
-                            $('#propertyDetails').html('<p>' + response.address + '</p>');
-                            $('#propertyModal').modal('show');
-                        }
-                    });
-                });
+                        marker.addListener('click', function() {
+                            $.ajax({
+                                url: '/map/property/' + property.id,
+                                method: 'GET',
+                                success: function(response) {
+                                    // console.log(response.property.id);
+                                    $('#propertyModalLabel').text(response.property.property_name);
+                                    $('#propertyDetails').html('<p>Address: ' + response.property
+                                        .address + '</p> <br>' +
+                                        '<p>Property Type: ' + response.property_type +
+                                        '</p><br>' +
+                                        '<p>Units: ' + response.units + '</p><br>' +
+                                        '<p>Owner: ' + response.owners + '</p><br>' +
+                                        '<p>Tenants: ' + response.tenants + '</p><br>'
+                                    );
+                                    $('#propertyModal').modal('show');
+                                }
+                            });
+                        });
+                    } else {
+                        console.error('Geocode was not successful for the following reason: ' + data.status);
+                    }
+                } catch (error) {
+                    console.error('Error fetching geocode data: ', error);
+                }
             }
         }
 
