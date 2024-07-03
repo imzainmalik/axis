@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Owner;
 use Illuminate\Http\Request;
 use App\Models\Property;
 use App\Models\Unit;
@@ -21,13 +22,13 @@ class PropertyController extends Controller
 
     public function add_new_property(Request $request)
     {
-
-        return view('add_property');
+        $owner = Owner::where('is_deleted',0)->get();
+        return view('add_property',get_defined_vars());
     }
 
     public function create_property(Request $request)
     {
-        // dd(auth()->user());
+        dd($request->all());
         $property = new Property;
         $property->user_id = auth()->user()->id;
         $property->property_type = $request->property_type;

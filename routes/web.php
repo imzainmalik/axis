@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalenderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -91,5 +92,10 @@ Route::get('/delete_notes/{id}', [NoteController::class, 'delete_notes'])->name(
 Route::get('/map', [MapController::class, 'index'])->name('map');
 Route::get('/map/property/{id}', [MapController::class, 'property'])->name('map.property');
 
+Route::get('/calender', [CalenderController::class, 'index'])->name('calender');
 // CronJobs
 Route::get('/makeLogForUnpaidRent', [Cronjob::class, 'makeLogForUnpaidRent'])->name('makeLogForUnpaidRent');
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
