@@ -21,12 +21,20 @@ class Property extends Model
      */
 
 
-     public function owners(): BelongsToMany
+     public function owners(): hasMany
     {
-        return $this->belongsToMany(Owner::class);
+        return $this->hasMany(PropertyOwner::class, 'property_id');
     }
 
-
+    /**
+     * Get the Tenants associated with the Property
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function Tenants(): HasOne
+    {
+        return $this->hasOne(Tenant::class, 'property_id', 'id');
+    }
 
     public function user(): HasOne
     {

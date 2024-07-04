@@ -2392,7 +2392,6 @@ li.paginate_button.page-item.active a:focus {
   margin: 5px;
   color: #fff;
 }
-
 @media (max-width: 1440px) {
   .send-app .txt {
     padding: 15px 15px;
