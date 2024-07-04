@@ -221,3 +221,65 @@ function myFunction() {
       x.type = "password";
     }
   }
+
+  $(document).ready(function() {
+    var zoomLevel = 1.0; // Initial zoom level
+    var zoomIncrement = 0.1; // Amount to zoom in or out
+    var mapInner = $('.map-inner');
+    var mainMap = $('.main-map');
+    var isDragging = false;
+    var dragStartX = 0;
+    var dragStartY = 0;
+    var dragStartScrollLeft = 0;
+    var dragStartScrollTop = 0;
+
+    // Zoom in button click event
+    $('#zoom-in').click(function() {
+        zoomLevel += zoomIncrement;
+        applyZoom();
+    });
+
+    // Zoom out button click event
+    $('#zoom-out').click(function() {
+        zoomLevel -= zoomIncrement;
+        if (zoomLevel < 0.1) zoomLevel = 0.1; // Limit zoom out level
+        applyZoom();
+    });
+
+    // Mouse down event for starting drag
+    mainMap.mousedown(function(event) {
+        isDragging = true;
+        dragStartX = event.pageX;
+        dragStartY = event.pageY;
+        dragStartScrollLeft = mainMap.scrollLeft();
+        dragStartScrollTop = mainMap.scrollTop();
+    });
+
+    // Mouse move event for dragging
+    $(document).mousemove(function(event) {
+        if (isDragging) {
+            var deltaX = dragStartX - event.pageX;
+            var deltaY = dragStartY - event.pageY;
+            mainMap.scrollLeft(dragStartScrollLeft + deltaX);
+            mainMap.scrollTop(dragStartScrollTop + deltaY);
+        }
+    });
+
+    // Mouse up event for stopping drag
+    $(document).mouseup(function() {
+        isDragging = false;
+    });
+
+    // Function to apply zoom (adjust map-inner scaling)
+    function applyZoom() {
+        mapInner.css({
+            transform: 'scale(' + zoomLevel + ')'
+        });
+
+        // Adjust main-map scroll position to show zoomed content
+        var scrollLeft = mainMap.scrollLeft();
+        var scrollTop = mainMap.scrollTop();
+        mainMap.scrollLeft(scrollLeft + 100); // Adjust scroll position as needed
+        mainMap.scrollTop(scrollTop + 100); // Adjust scroll position as needed
+    }
+});
