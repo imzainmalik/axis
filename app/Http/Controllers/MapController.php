@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Property;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 
 class MapController extends Controller
@@ -20,6 +21,8 @@ class MapController extends Controller
     public function index(){
         $properties = Property::where('status', 0)->where('user_id',auth()->user()->id)->get();
         // dd($property);
+        $units = Unit::where('status', 0)->get();
+
         return view('map',get_defined_vars());
     }
 
@@ -41,6 +44,14 @@ class MapController extends Controller
             'units' => $property->Units()->count(),
             'tenants' => $property->Tenants()->count(),
             'owners' => $property->owners()->count(),
+           'message' => 200,
+        ]);
+    }
+    
+    public function get_map_data(){
+        $units = Unit::where('status', 0)->pluck('unit_num');
+        return response()->json([
+            'units' => $units,
            'message' => 200,
         ]);
     }

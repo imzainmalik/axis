@@ -17,7 +17,7 @@
 
         <div class="owners-sec1">
             <div class="container-fluid">
-                
+
                 <div class="col-md-4">
                     <div class="tenant-box create-owner">
                         <div class="txt">
@@ -30,30 +30,30 @@
                     <div class="col-md-12">
                         <div class="one-row-elem">
                             <!-- <div class="property-search">
-                                <input type="search" placeholder="Search Owners">
-                                <button><i class="fas fa-search"></i></button>
-                            </div>
-                            <ul class="togg-btn">
-                                <li class="first"><i class="fal fa-sliders-h"></i></li>
-                                <ul class="togg-drop">
-                                    <li class="first"><a href="javascript:;">Sort By:Area</a></li>
-                                    <li class="last"><a href="javascript:;">Sort By:Date</a></li>
-                                </ul>
-                            </ul> -->
+                                    <input type="search" placeholder="Search Owners">
+                                    <button><i class="fas fa-search"></i></button>
+                                </div>
+                                <ul class="togg-btn">
+                                    <li class="first"><i class="fal fa-sliders-h"></i></li>
+                                    <ul class="togg-drop">
+                                        <li class="first"><a href="javascript:;">Sort By:Area</a></li>
+                                        <li class="last"><a href="javascript:;">Sort By:Date</a></li>
+                                    </ul>
+                                </ul> -->
                         </div>
                         <table class="table table-hover data-table">
                             <thead>
                                 <tr>
                                     <th></th>
                                     <th>Owner</th>
-                                    <th>Properties</th>
+                                    <th>Units</th>
                                     <th>Contact Information</th>
-                                    <th>Owner Portal</th>
+                                    {{-- <th>Owner Portal</th> --}}
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody> 
-                                
+                            <tbody>
+
                             </tbody>
                         </table>
                     </div>
@@ -70,8 +70,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('owners') }}",
-                columns: [
-                    {
+                columns: [{
                         data: 'id',
                         name: 'id'
                     },
@@ -87,16 +86,39 @@
                         data: 'contact_Information',
                         name: 'contact_Information'
                     },
-                    {
-                        data: 'owner_portal',
-                        name: 'owner_portal'
-                    },
+
                     {
                         data: 'action',
-                        name: 'action' , sortable: false,
+                        name: 'action',
+                        sortable: false,
                     }
                 ]
             });
-        }); 
+        });
+
+
+        function deleteOwnerCofirm(id) {
+            Swal.fire({
+                title: "Do you want to delete this Owner?",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                denyButtonText: `No`
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $.ajax({
+                        'url': "/delete_owners/" + id + " ",
+                        'type': 'get',
+                        success: function(response) {
+                            Swal.fire("Owner Delete successfuly", "", "success");
+                            location.reload();
+                        }
+                    })
+                } else if (result.isDenied) {
+                    Swal.fire("Lease Inactivation Cancelled", "", "info");
+                }
+            });
+        }
     </script>
 @endpush

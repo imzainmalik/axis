@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lease;
 use App\Models\MonthlyRent;
 use App\Models\Property;
+use App\Models\PropertyOwner;
 use App\Models\Tenant;
 use App\Models\Unit;
 use App\Models\User;
@@ -66,61 +67,50 @@ class TenentsController extends Controller
                 ->addColumn('balance', function ($row) {
                     $totalDueBalanceByeach = 0;
                     $dueBalanceByeach =  MonthlyRent::where('tenant_id', $row->id,)
-                        ->where('month_year', '!=', Carbon::now()->format('Y-m')) // Assuming month_year is stored as 'Y-m'
+                        ->where('payment_status', 'Unpaid') // Assuming month_year is stored as 'Y-m'
                         ->sum('amount');
 
                     $totalDueBalanceByeach += $dueBalanceByeach;
 
                     return '  <p class="red-txt">FCFA ' . $totalDueBalanceByeach . '</p>';
                 })
-                ->addColumn('tenant_portal_status', function ($row) {
-                    return '
-                    <ul class="tenant-status">
-                                                    <li class="active-green first"><i class="fas fa-at"></i></li>
-                                                    <li class="active-green"><i class="far fa-sign-out"></i></li>
-                                                    <li><i class="fas fa-paper-plane"></i></li>
-                                                    <li class="last"><i class="fas fa-dollar-sign"></i></li>
-                                                </ul>
-                    ';
-                })
+                // ->addColumn('tenant_portal_status', function ($row) {
+                //     return '
+                //     <ul class="tenant-status">
+                //                                     <li class="active-green first"><i class="fas fa-at"></i></li>
+                //                                     <li class="active-green"><i class="far fa-sign-out"></i></li>
+                //                                     <li><i class="fas fa-paper-plane"></i></li>
+                //                                     <li class="last"><i class="fas fa-dollar-sign"></i></li>
+                //                                 </ul>
+                //     ';
+                // })
                 ->addColumn('action', function ($row) {
                     // $action = '<li class="last"><a href="javascript:;">Delete</a></li>';
                     $action = '<ul class="togg-btn">
                             <li class="first"><i class="fal fa-ellipsis-h"></i></li>
                             <ul class="togg-drop">
-                                <li class="first"><a href="javascript:;">Edit</a></li>
+                                <li class="first"><a href="' . route('edit_tenants', $row->id) . '">Edit</a></li>
                                 <li class="last"><a href="javascript:;" onclick="deleteTenantCofirm(' . $row->id . ')">Delete</a></li>
+                                <li class="last"><a href="' . route('payment_history', $row->id) . '">Payment history</a></li>
                             </ul>
                         </ul>';
                     return $action;
                 })
-                ->rawColumns(['tenant', 'contact_Info', 'balance', 'tenant_portal_status', 'action'])
+                ->rawColumns(['tenant', 'contact_Info', 'balance', 'action'])
                 ->make(true);
-        }
-        if ($get_tenants->count() > 0) {
-            foreach ($get_tenants as $tenant) {
-                $user_count = User::where('email', '!=', $tenant->email)->count();
-            }
-        } else {
-            $user_count = 0;
         }
 
         // dd($user_count); 
         $get_properties = Property::where('user_id', auth()->user()->id)->get();
         $totalDueBalance = 0;
 
-        foreach ($get_properties as $get_property) {
-            $get_units = Unit::where('property_id', $get_property->id)->get();
-            foreach ($get_units as $get_unit) {
-                $dueBalance = MonthlyRent::where('unit_id', $get_unit->id)
-                    ->where('month_year', '!=', Carbon::now()->format('Y-m'))
-                    ->whereHas('tenant', function ($query) {
-                        $query->where('is_deleted', 0);
-                    })
-                    ->sum('amount');
-                $totalDueBalance += $dueBalance;
-            }
-        }
+        // foreach ($get_properties as $get_property) {
+        // $get_units = Unit::where('property_id', $get_property->id)->get();
+        //     foreach ($get_units as $get_unit) {
+        $dueBalance = MonthlyRent::where('payment_status', 'Unpaid')->sum('amount');
+        $totalDueBalance += $dueBalance;
+        // }
+        // }
 
         // dd($totalDueBalance);
         return view('tenants', get_defined_vars());
@@ -134,7 +124,8 @@ class TenentsController extends Controller
 
     public function get_units($id)
     {
-        $get_units = Unit::where('property_id', $id)->where('status', 0)->get();
+        $get_units = Unit::where('property_id', $id)->get();
+        // dd($get_units, $id);
         return response()->json([
             'message' => 200,
             'data' => $get_units
@@ -164,14 +155,20 @@ class TenentsController extends Controller
         $tenants->lease_end_date = $request->lease_end_date;
         $tenants->save();
 
+        $unit_owner = PropertyOwner::where('property_id', $request->property_id)
+            ->where('unit_id', $request->units)
+            ->first();
+
         $lease = new Lease;
+        $lease->user_id = auth()->user()->id;
+        $lease->owner_id = $unit_owner->owner_id;
         $lease->unit_id = $request->units;
         $lease->tenant_id = $tenants->id;
-        $lease->lease_start_date = $request->lease_start_date;
-        $lease->lease_end_date = $request->lease_end_date;
+        $lease->start_date = $request->lease_start_date;
+        $lease->end_date = $request->lease_end_date;
         $lease->rent_amount = $unit_details->property_rent_amount;
         $lease->save();
-        return redirect()->route('tenants')->with('Tenant created successfuly');
+        return redirect()->route('tenants')->with('success', 'Tenant created successfuly');
     }
 
     public function edit_tenants($tenant_id)
@@ -206,17 +203,127 @@ class TenentsController extends Controller
             'lease_start_date' => $request->lease_start_date,
             'lease_end_date' => $request->lease_end_date,
         ));
-        return redirect()->route('tenants')->with('success', 'Tenant has been updated.');
+
+        $unit_details = Unit::findorfail($request->units);
+
+        Lease::where('tenant_id', $id)->where('unit_id', $request->units)->update(array(
+            'start_date' => $request->lease_start_date,
+            'end_date' => $request->lease_end_date,
+            'rent_amount' => $unit_details->property_rent_amount,
+        ));
+         return redirect()->route('tenants')->with('success', 'Tenant has been updated.');
     }
 
     public function delete_tenant(Request $request, $id)
     {
+        $tenant = Tenant::where('id', $id)->first();
+        $unit_details = Unit::find($tenant->unit_id);
+
         Tenant::where('id', $id)->update(array(
             'is_deleted' => 1
+        ));
+
+        // $lease = Lease::where('tenant_id', $id)
+        Lease::where('tenant_id', $id)->where('unit_id', $unit_details->id)->update(array(
+            'lease_status' => 'inactive',
         ));
 
         return response()->json([
             'message' => 200,
         ]);
+    }
+
+    public function create_rent()
+    {
+        $get_properties = Property::where('status', 0)->where('user_id', auth()->user()->id)->get();
+        $tenants = Tenant::where('is_deleted', 0)->get();
+        $unit = Unit::where('status', 0)->get();
+        return view('create_rent', get_defined_vars());
+    }
+
+    public function store_payment(Request $request)
+    {
+        // dd($request->all());
+        $rent = new MonthlyRent;
+        $rent->tenant_id = $request->tenants;
+        $rent->unit_id = $request->unit;
+        $rent->month_year = $request->month_year;
+        $rent->payment_date = $request->month_year;
+        $rent->payment_status = $request->payment_status;
+        $rent->amount = $request->amount;
+        $rent->save();
+        return redirect()->route('tenants')->with('success', 'Rent has been added.');
+    }
+
+    public function payment_history(Request $request, $tenant_id)
+    {
+        $monthly_rent = MonthlyRent::where('tenant_id', $tenant_id)->get();
+        // dd($monthly_rent);
+        if ($request->ajax()) {
+            return DataTables::of($monthly_rent)
+                ->addIndexColumn()
+                ->addColumn('tenant', function ($row) {
+                    return '
+                    <div class="content">
+                        <div class="icon">
+                            <img src="' . asset('tenants_image/' . $row->tenant->image . ' ') . '" alt="">
+                        </div>
+                        <div class="txt">
+                            <h6>' . $row->tenant->first_name . '</h6>
+                                <p>' . $row->Unit->Property->property_name . ' | ' . $row->Unit->unit_name . '</p>
+                        </div>
+                    </div>';
+                })
+
+                ->addColumn('property_details', function ($row) {
+                    return '<div class="content">
+                        <div class="txt">
+                            <h6>' . $row->Unit->Property->property_name . '</h6>
+                                <p>' . $row->Unit->unit_name . '</p>
+                        </div>
+                    </div>';
+                })
+
+                ->addColumn('rent_of_month', function ($row) {
+                    return '<div class="content">
+                        <div class="txt"> 
+                                <p>' . $row->month_year . '</p>
+                        </div>
+                    </div>';
+                })
+
+                ->addColumn('payment_date', function ($row) {
+                    return '<div class="content">
+                        <div class="txt"> 
+                                <p>' . $row->payment_date . '</p>
+                        </div>
+                    </div>';
+                })
+
+                ->addColumn('amount', function ($row) {
+                    return '<div class="content">
+                        <div class="txt"> 
+                                <p>FCFA ' . $row->amount . '</p>
+                        </div>
+                    </div>';
+                })
+
+                ->addColumn('payment_status', function ($row) {
+                    if($row->payment_status == 'Paid'){
+                        $status = ' <span class="current">Paid</span>';
+                    }else{
+                        $status = ' <span class="past">Unpaid</span>';
+                    }
+                    return '<div class="content">
+                        <div class="txt"> 
+                                <p>' . $status . '</p>
+                        </div>
+                    </div>';
+                })
+
+                ->rawColumns(['tenant', 'property_details', 'payment_status', 'payment_date', 'rent_of_month', 'amount'])
+                ->make(true);
+        }
+        return view('payment_history', get_defined_vars());
     }
 }

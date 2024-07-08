@@ -19,4 +19,5 @@ class Owner extends Model
     {
         return $this->hasMany(PropertyOwner::class, 'owner_id', 'id');
     }
+ 
 }
