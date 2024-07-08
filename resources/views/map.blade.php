@@ -893,7 +893,7 @@
 @endsection
 
 @push('custom_js')
-<!-- <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}"></script>
+{{-- <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}"></script>
     <script>
         async function initMap() {
             const map = new google.maps.Map(document.getElementById('map'), {
@@ -941,5 +941,5 @@
         $(document).ready(function() {
             initMap();
         });
-    </script> -->
+    </script> --}}
 @endpush

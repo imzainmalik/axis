@@ -166,8 +166,9 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
+        App\Providers\EventServiceProvider::class,  
         App\Providers\RouteServiceProvider::class,
+        Intervention\Image\Laravel\ServiceProvider::class
     ])->toArray(),
 
     /*
@@ -183,6 +184,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Image' => Intervention\Image\Laravel\Facades\Image::class
+
     ])->toArray(),
 
 ];
