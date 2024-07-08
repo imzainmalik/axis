@@ -20,7 +20,7 @@
                     <div class="tenant-box">
                         <div class="txt">
                             <h4>{{ $tasks->count() }} <span>All Tasks</span></h4>
-                            <a href="{{ route('create_task_maintenance') }}" class="btn btn-primary text-white">Create Tasks</a>
+                            <a href="{{ route('create_task_maintenance') }}" class="black-btn">Create Tasks</a>
                         </div>
                     </div>
                 </div>

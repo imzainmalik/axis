@@ -335,14 +335,16 @@
                 ['Status', 'Units'],
                 ['Occupied', {{ $occupancyRate['occupied'] }}],
                 ['Vacant', {{ $occupancyRate['vacant'] }}]
-            ]);
+            ]); 
             var options = {
                 // title: 'Occupancy Status',
                 pieHole: 0.5,
                 colors: ['#FF3A29', '#FFE5D3'], // Custom colors for segments
                 chartArea: {
-                    width: '{{ $occupancyRate['occupied_percentage'] }}%',
-                    height: '{{ $occupancyRate['vacant_percentage'] }}%'
+                    // width: '{{ $occupancyRate['occupied_percentage'] }}%',
+                    // height: '{{ $occupancyRate['vacant_percentage'] }}%'
+                    width: '80%', // Adjust the width percentage as needed (e.g., 80%)
+                    height: '80%' // Adjust the height percentage as needed (e.g., 80%)
                 }, // Adjust chart area
                 legend: {
                     position: 'none'

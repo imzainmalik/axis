@@ -20,7 +20,8 @@
                 <div class="card-body">
                     <form action="{{ route('create_property') }}" method="post">
                         @csrf
-                        <div class="container">
+                        <div class="row">
+                        <div class="col-md-6">
                             <label for="">Property Type</label>
                             <select name="property_type" id="" required class="form-control">
                                 <option value="" disabled selected></option>
@@ -30,46 +31,48 @@
                                 <option value="3">Condo</option>
                             </select>
                         </div>
-                        <div class="container py-3">
+                        <div class="col-md-6">
                             <label for="">Property name</label>
                             <input type="text" name="property_name" required class="form-control">
                         </div>
-
-                        <div class="container">Unit</div>
-                        <div class="container py-3" id="unit_div">
-                            <div class="col-12">
+                        <div class="col-md-12">
+                            <label for="">Unit</label>
+                        </div>
+                        <div class="col-md-12" id="unit_div">
                                 <div class="row">
-                                    <div class="col-3">
+                                    <div class="col">
                                         <input type="text" class="form-control" placeholder="Unit name" required
                                             name="unit_names[]">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <input type="number" class="form-control" placeholder="Unit number" required
                                             name="unit_number[]">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <input type="number" class="form-control" placeholder="Size" required
                                             name="unit_size[]">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <input type="number" class="form-control" placeholder="Beds" name="unit_beds[]">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <input type="number" class="form-control" placeholder="Bath" name="unit_bath[]">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <input type="number" class="form-control" placeholder="Rent Amount" required
                                             name="unit_amount[]">
                                     </div>
-                                    {{-- <div class="col-3">
+                                    {{-- <div class="col">
                                             <button class="btn btn-primary" type="button"><i
                                                     class="fa fa-plus" onclick="add_div()"></i></button>
                                         </div> --}}
                                 </div>
-                            </div>
+                            
                         </div>
-                        <div class="container py-4">Address</div>
-                        <div class="container py-3">
+                        <div class="col-md-12">
+                            <label for="">Address</label>
+                        </div>
+                        <div class="row">
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-6">
@@ -103,12 +106,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="container py-3">
-                            Owners
+                        <div class="col-md-12">
+                            <label for="">Owners</label>
                         </div>
-                        <div class="container py-3">
+                        <div class="col-md-12">
                             <div class="col-6">
-
                                 <input class="form-check-input" type="radio" value="own_by_me" name="own_by"
                                     id="own_by_me">
                                 <label class="form-check-label" for="own_by_me">
@@ -122,7 +124,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="container">
+                        <div class="col-md-12">
                             <select name="owners[]" class="form-control" id="ownersDropdown" multiple>
                                 @foreach ($owner as $item)
                                     <option value="{{ $item->id }}">{{ $item->first_name . ' ' . $item->last_name }}
@@ -130,8 +132,9 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="container py-3">
-                            <button class="btn  btn-primary">Create property</button>
+                        <div class="col-md-12">
+                            <button class="red-btn">Create property</button>
+                        </div>
                         </div>
                     </form>
                 </div>

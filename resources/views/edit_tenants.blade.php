@@ -22,7 +22,7 @@
                 <form action="{{ route('update_tenants',$get_tenant->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <label for="">Properties</label>
                             <select name="property_id" id="property_id" onchange="get_unit()" required class="form-control">
                                 <option value="" disabled selected></option>
@@ -41,7 +41,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <label for="">Unit</label>
                             <select name="units" class="form-control" id="units" required>
                                 <option value=""disabled selected></option>
@@ -58,51 +58,54 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-12 py-4">
+                    <div class="row">
+                    <div class="col-md-6">
                         <label for="">First name</label>
                         <input type="text" name="first_name" value="{{ $get_tenant->first_name }}" required
                             class="form-control">
                     </div>
-                    <div class="py-3">
+                    <div class="col-md-6">
                         <label for="">Last name</label>
                         <input type="text" name="last_name" value="{{ $get_tenant->last_name }}" required
                             class="form-control">
                     </div>
-                    <div class="py-3">
-                        <label for="">Image</label>
-                        <input type="file" name="image" class="form-control"><br>
-                        <p>Preview</p>
-                        <img src="{{ asset('tenants_image/' . $get_tenant->image . ' ') }}" alt="" style="width: 168px;" class="img-thumb">
-                    </div>
-                    <div class="py-3">
+                   
+                    <div class="col-md-6">
                         <label for="">Email</label>
                         <input type="email" name="email" value="{{ $get_tenant->email }}" required
                             class="form-control">
                     </div>
-                    <div class="py-3">
+                    <div class="col-md-6">
                         <label for="">Phone number</label>
                         <input type="text" name="phone_number" value="{{ $get_tenant->phone_number }}" required
                             class="form-control">
                     </div>
-                    <div class="py-3">
+                    <div class="col-md-6">
                         <label for="">Date of birth</label>
                         <input type="date" name="date_of_birth" value="{{ $get_tenant->date_of_birth }}" required
                             class="form-control">
                     </div>
+                    </div>
                     <div class="row">
-                        <div class="col-6 py-3">
+                        <div class="col-md-6">
                             <label for="">Lease start date</label>
                             <input type="date" name="lease_start_date" value="{{ $get_tenant->lease_start_date }}"
                                 required class="form-control">
                         </div>
-                        <div class="col-6 py-3">
+                        <div class="col-md-6">
                             <label for="">Lease end date</label>
                             <input type="date" name="lease_end_date" value="{{ $get_tenant->lease_end_date }}" required
                                 class="form-control">
                         </div>
                     </div>
-                    <div class="py-3">
-                        <button class="btn btn-primary">Save changes</button>
+                    <div class="col-md-6">
+                        <label for="">Image</label>
+                        <input type="file" name="image" class="form-control"><br>
+                        <p>Preview</p>
+                        <img src="{{ asset('tenants_image/' . $get_tenant->image . ' ') }}" alt="" style="width: 168px;" class="img-thumb">
+                    </div>
+                    <div class="col-md-12">
+                        <button class="red-btn">Save changes</button>
                     </div>
                 </form>
             </div>

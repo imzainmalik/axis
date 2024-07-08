@@ -68,7 +68,7 @@
                             </select>
                         </div>
                         <div class="col-6">
-                            <button class="btn btn-primary">Create</button>
+                            <button class="red-btn">Create</button>
                         </div>
                     </div>
                 </form>

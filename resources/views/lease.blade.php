@@ -20,7 +20,7 @@
                     <div class="tenant-box">
                         <div class="txt">
                             <h4>{{ $lease->count() }} <span>All Leases</span></h4>
-                            <a href="{{ route('lease_add') }}" class="btn btn-primary text-white">Create Lease</a>
+                            <a href="{{ route('lease_add') }}" class="black-btn">Create Lease</a>
                         </div>
                     </div>
                 </div>
