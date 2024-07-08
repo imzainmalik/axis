@@ -888,14 +888,14 @@
                         <strong>Rent</strong>: <span>FCFA {{ $item->property_rent_amount }}</span><br><br>
                         <strong>Has rental</strong>: <span>
                             @if ($tenants != null)
-                                <div class="current">Vacant</div>
+                                <div class="current vacant">Vacant</div>
                             @else
-                                <div class="current">Occupied</div>
+                                <div class="current occupied">Occupied</div>
                             @endif
                         </span>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="black-btn" data-dismiss="modal">Close</button>
                         {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
                     </div>
                 </div>

@@ -39,7 +39,7 @@
                         <div class="tenant-box">
                             <div class="txt">
                                 <h4>Monthly Rent</h4>
-                                <a href="{{ route('create_rent') }}" class="btn btn-primary text-white">Monthly Rent</a>
+                                <a href="{{ route('create_rent') }}" class="black-btn">Monthly Rent</a>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                         <div class="tenant-box">
                             <div class="txt">
                                 <h4>{{ $get_tenants->count() }} <span>Tenants</span></h4>
-                                <a href="{{ route('add_tenants') }}" class="btn btn-primary text-white">Create Tenants</a>
+                                <a href="{{ route('add_tenants') }}" class="black-btn">Create Tenants</a>
                             </div>
                         </div>
                     </div>
