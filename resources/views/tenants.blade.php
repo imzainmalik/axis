@@ -37,19 +37,9 @@
                     </div>
                     <div class="col-md-4">
                         <div class="tenant-box">
-                            <div class="hd">
-                                <h6>Didn't sign into the portal</h6>
-                                <ul class="togg-btn">
-                                    <li class="first"><i class="fal fa-ellipsis-h"></i></li>
-                                    <ul class="togg-drop">
-                                        <li class="first"><a href="javascript:;">Edit</a></li>
-                                        <li class="last"><a href="javascript:;">Delete</a></li>
-                                    </ul>
-                                </ul>
-                            </div>
                             <div class="txt">
-                                <h4>{{ $user_count }} <span>Tenants</span></h4>
-                                <a href="javascript:;">See Tenants</a>
+                                <h4>Monthly Rent</h4>
+                                <a href="{{ route('create_rent') }}" class="btn btn-primary text-white">Monthly Rent</a>
                             </div>
                         </div>
                     </div>
@@ -67,20 +57,7 @@
         <div class="tenants-sec2">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="one-row-elem">
-                            <div class="property-search">
-                                <input type="search" placeholder="Search Tenants">
-                                <button><i class="fas fa-search"></i></button>
-                            </div>
-                            <ul class="togg-btn">
-                                <li class="first"><i class="fal fa-sliders-h"></i></li>
-                                <ul class="togg-drop">
-                                    <li class="first"><a href="javascript:;">Sort By:Area</a></li>
-                                    <li class="last"><a href="javascript:;">Sort By:Date</a></li>
-                                </ul>
-                            </ul>
-                        </div>
+                    <div class="col-md-12"> 
                         <table class="table table-hover data-table">
                             <thead>
                                 <tr>
@@ -88,9 +65,9 @@
                                     <th>Tenant</th>
                                     <th>Contact Info</th>
                                     <th>Balance</th>
-                                    <th>Tenant Portal Status</th>
+                                    {{-- <th>Tenant Portal Status</th> --}}
                                     <th>Action</th>
-                                    <th></th>
+                                    {{-- <th></th> --}}
                                 </tr>
                             </thead>
                             <tbody> 
@@ -126,10 +103,10 @@
                     data: 'balance',
                     name: 'balance'
                 },
-                {
-                    data: 'tenant_portal_status',
-                    name: 'tenant_portal_status'
-                },
+                // {
+                //     data: 'tenant_portal_status',
+                //     name: 'tenant_portal_status'
+                // },
                 {
                     data: 'action',
                     name: 'action',

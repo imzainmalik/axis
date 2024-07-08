@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class PropertyOwner extends Model
@@ -22,11 +23,21 @@ class PropertyOwner extends Model
 
 
     public function propertiesDetail()
-        {
-            return $this->belongsToMany(PropertyOwner::class,
-            'owner_id', 'property_id');
-        }
+    {
+        return $this->belongsToMany(
+            PropertyOwner::class,
+            'owner_id',
+            'property_id'
+        );
+    }
 
-
-
+    /**
+     * Get all of the Unit for the PropertyOwner
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function Unit(): hasOne
+    {
+        return $this->hasOne(Unit::class, 'id', 'unit_id');
+    }
 }

@@ -36,34 +36,35 @@
                         </div>
 
                         <div class="container">Unit</div>
-                        <div class="container py-3">
+                        <div class="container py-3" id="unit_div">
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-3">
                                         <input type="text" class="form-control" placeholder="Unit name" required
-                                            name="unit_details[]">
+                                            name="unit_names[]">
                                     </div>
                                     <div class="col-3">
                                         <input type="number" class="form-control" placeholder="Unit number" required
-                                            name="unit_details[]">
+                                            name="unit_number[]">
                                     </div>
                                     <div class="col-3">
                                         <input type="number" class="form-control" placeholder="Size" required
-                                            name="unit_details[]">
+                                            name="unit_size[]">
                                     </div>
                                     <div class="col-3">
-                                        <input type="number" class="form-control" placeholder="Beds" name="unit_details[]">
+                                        <input type="number" class="form-control" placeholder="Beds" name="unit_beds[]">
                                     </div>
                                     <div class="col-3">
-                                        <input type="number" class="form-control" placeholder="Bath" name="unit_details[]">
+                                        <input type="number" class="form-control" placeholder="Bath" name="unit_bath[]">
                                     </div>
                                     <div class="col-3">
                                         <input type="number" class="form-control" placeholder="Rent Amount" required
-                                            name="unit_details[]">
+                                            name="unit_amount[]">
                                     </div>
-                                    <div class="col-3">
-                                        <button class="btn btn-primary" type="button"><i class="fa fa-plus"></i></button>
-                                    </div>
+                                    {{-- <div class="col-3">
+                                            <button class="btn btn-primary" type="button"><i
+                                                    class="fa fa-plus" onclick="add_div()"></i></button>
+                                        </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -151,5 +152,11 @@
                 }
             });
         });
+
+        // function add_div(){ 
+        //     // console.log('dd');
+        //     let random_id = (Math.random() + 1).toString(36).substring(7);
+        //      $('#unit_id').append('<div class="col-12" id="unit_div_'+random_id+'"><div class="row"><div class="col-3"><input type="text" class="form-control" placeholder="Unit name" required name="unit_names[]"></div><div class="col-3"><input type="number" class="form-control" placeholder="Unit number" required name="unit_number[]"></div><div class="col-3"><input type="number" class="form-control" placeholder="Size" required name="unit_size[]"></div><div class="col-3"><input type="number" class="form-control" placeholder="Beds" name="unit_beds[]"></div><div class="col-3"><input type="number" class="form-control" placeholder="Bath" name="unit_bath[]"></div><div class="col-3"><input type="number" class="form-control" placeholder="Rent Amount" required name="unit_amount[]"></div><div class="col-3"><button class="btn btn-danger" type="button"><i class="fa fa-trash" onclick="remove_div('+random_id+')"></i></button></div></div></div> ');
+        // }
     </script>
 @endpush

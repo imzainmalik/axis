@@ -46,12 +46,12 @@
                         </div>
                         <div class="container py-3">
                             <label for="">Bedrooms</label>
-                            <input type="number" name="bedrooms" value="{{ $units->bedrooms }}" required
+                            <input type="number" name="bedrooms" value="{{ $units->bedrooms }}"
                                 class="form-control">
                         </div>
                         <div class="container py-3">
                             <label for="">Bathrooms</label>
-                            <input type="number" name="bathrooms" value="{{ $units->bathrooms }}" required
+                            <input type="number" name="bathrooms" value="{{ $units->bathrooms }}" 
                                 class="form-control">
                         </div>
                         <div class="container py-3">

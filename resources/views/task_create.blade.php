@@ -87,6 +87,10 @@
                         </select>
                     </div>
                     <div class="form-group py-4">
+                        <label for="due_date">Due date</label>
+                        <input type="date" class="form-control" required id="due_date" name="due_date">
+                    </div>
+                    <div class="form-group py-4">
                         <label for="assignees">Assignees <small>(If multiple assignees use comma saperated)</small></label>
                         <input type="text" class="form-control" required
                             placeholder="Ex. someone@etc.com, someone@etc.com" id="assignees" name="assignees">
