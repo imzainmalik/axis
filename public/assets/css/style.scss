@@ -644,8 +644,9 @@ ul.dropdown li a:hover {
     border-radius: 15px;
     font-size: 16px;
     font-weight: 600;
-    color: #fff;
+    color: #fff!important;
     font-family: $titillium-web;
+    text-decoration: unset!important;
     &:hover{
         background-color: #797979;
         color: #fff;
@@ -1811,10 +1812,18 @@ ul.menu li.dropdown:hover .dropdown-list {
         border-radius: 5px;
         padding: 12px;
         margin-bottom: 30px;
+        font-family: $poppins;
         &:focus{
             border: 1px solid #000;
             box-shadow: none;
         }
+    }
+    .form-check-input {
+        margin: 0 5px 0 0;
+        border: 1px solid #000;
+    }
+    .card-body label {
+        margin-right: 20px;
     }
 }
 .create-owner{
@@ -2509,9 +2518,27 @@ li.paginate_button.page-item.active a{
     margin: 5px;
     color: #fff;
 }
-
-
-
+.card-body .red-btn {
+    margin-top: 20px;
+}
+.vacant{
+    color: green;
+    font-weight: bold;
+}
+.occupied{
+    color: red;
+    font-weight: bold;
+}
+.modal-title{
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+}
+.modal-footer{
+    .black-btn{
+        padding: 15px 20px;
+    }
+}
 
 
 
