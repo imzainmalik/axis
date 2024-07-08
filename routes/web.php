@@ -46,6 +46,7 @@ Route::get('/delete_unit/{id}', [PropertyController::class, 'delete_unit'])->nam
 Route::get('/list_unit/{id}', [PropertyController::class, 'list_unit'])->name('list_unit');
 Route::get('/edit_unit/{id}', [PropertyController::class, 'edit_units'])->name('edit_unit');
 Route::post('/update_units/{id}', [PropertyController::class, 'update_units'])->name('update_units');
+Route::get('/unit-details/{id}', [PropertyController::class, 'units_details'])->name('units_details');
 
 // Tenants
 Route::get('/tenants', [TenentsController::class, 'tenants'])->name('tenants');
@@ -56,11 +57,17 @@ Route::get('/edit_tenants/{id}', [TenentsController::class, 'edit_tenants'])->na
 Route::post('/update_tenants/{id}', [TenentsController::class, 'update_tenants'])->name('update_tenants');
 Route::get('/edit_tenants/{id}', [TenentsController::class, 'edit_tenants'])->name('edit_tenants');
 Route::get('/delete_tenant/{id}', [TenentsController::class, 'delete_tenant'])->name('delete_tenant');
+Route::get('/monthly-rent', [TenentsController::class, 'create_rent'])->name('create_rent');
+Route::post('/store_payment', [TenentsController::class, 'store_payment'])->name('store_payment');
+Route::get('/monthly-rent-history/{id}', [TenentsController::class, 'payment_history'])->name('payment_history');
 
 // Owners
 Route::get('/owners', [OwnersController::class, 'index'])->name('owners');
 Route::get('/add_owners', [OwnersController::class, 'addowners'])->name('add_owners');
 Route::post('/create_owner', [OwnersController::class, 'create_owner'])->name('create_owner');
+Route::get('/delete_owners/{id}', [OwnersController::class, 'delete_owners'])->name('delete_owners');
+Route::get('/edit-owner/{id}', [OwnersController::class, 'edit_owner'])->name('edit_owner');
+Route::post('/update_owner/{id}', [OwnersController::class, 'update_owner'])->name('update_owner');
 
 // Leases
 Route::get('/leases', [LeaseController::class, 'leases'])->name('leases'); 
@@ -91,6 +98,7 @@ Route::get('/delete_notes/{id}', [NoteController::class, 'delete_notes'])->name(
 // map
 Route::get('/map', [MapController::class, 'index'])->name('map');
 Route::get('/map/property/{id}', [MapController::class, 'property'])->name('map.property');
+Route::get('/get_map_data', [MapController::class, 'get_map_data'])->name('get_map_data');
 
 Route::get('/calender', [CalenderController::class, 'index'])->name('calender');
 // CronJobs

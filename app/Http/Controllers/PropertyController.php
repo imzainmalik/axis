@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Owner;
 use Illuminate\Http\Request;
 use App\Models\Property;
+use App\Models\PropertyOwner;
 use App\Models\Unit;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -22,20 +23,62 @@ class PropertyController extends Controller
 
     public function add_new_property(Request $request)
     {
-        $owner = Owner::where('is_deleted',0)->get();
-        return view('add_property',get_defined_vars());
+        $owner = Owner::where('is_deleted', 0)->get();
+        return view('add_property', get_defined_vars());
     }
 
     public function create_property(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $property = new Property;
         $property->user_id = auth()->user()->id;
         $property->property_type = $request->property_type;
         $property->property_name = $request->property_name;
-        // $property->unit = $request->unit;
-        $property->address = $request->address;
+        $property->address = $request->street1.', '. $request->city.', '. $request->state.' '.$request->zipcode.', '.$request->country;
+        $property->street1 = $request->street1;
+        $property->street2 = $request->street2;
+        $property->state = $request->state;
+        $property->city = $request->city;
+        $property->country = $request->country;
+        $property->zipcode = $request->zipcode;
         $property->save();
+
+        $unit_blank_array = [];
+        // dd($request->unit_names);
+
+        foreach($request->unit_names as $key=> $unit){
+            // dd($request->unit_number[$key]);
+            $unit = new Unit;
+            $unit->property_id = $property->id;
+            $unit->unit_name = $request->unit_names[$key];
+            $unit->unit_num = $request->unit_number[$key];
+            $unit->bedrooms = $request->unit_beds[$key];
+            $unit->bathrooms = $request->unit_bath[$key];
+            $unit->square_feet = $request->unit_size[$key];
+            $unit->property_rent_amount = $request->unit_amount[$key];
+            $unit->save();
+            array_push($unit_blank_array, $unit->id);
+
+            if ($request->own_by == 'own_by_someoneelse') {
+                foreach ($request->owners as $owner) {
+                    $property_owner = new PropertyOwner;
+                    $property_owner->property_id = $property->id;
+                    $property_owner->owner_id = $owner;
+                    $property_owner->unit_id = $unit->id;
+                    $property_owner->save();
+                }
+            }else{
+                foreach ($request->owners as $owner) {
+                    $property_owner = new PropertyOwner;
+                    $property_owner->property_id = $property->id;
+                    $property_owner->owner_id = auth()->user()->id;
+                    $property_owner->unit_id = $unit->id;
+                }
+            }
+        }
+            // dd($unit_blank_array);
+
+        
         return redirect()->back()->with('success', 'Property created succesfully');
     }
 
@@ -68,8 +111,8 @@ class PropertyController extends Controller
                                                 ' . $row->address . '
                                                 </span>
                                             </p>
+                                        </div>
                                     </div>
-                                     </div>
                                 </a>';
 
                     return $property;
@@ -120,8 +163,8 @@ class PropertyController extends Controller
                                         <img src="' . asset("assets/images/pi2.png") . '" alt="">
                                     </div>
                                 <div class="txt">
-                                        <h6>' . $row->Property->property_name . ' &gt;
-                                                    ' . $row->unit_name . '</h6>
+                                        <a href="' . route("units_details", $row->id) . '"><h6>' . $row->Property->property_name . ' &gt;
+                                                    ' . $row->unit_name . '</h6></a>
                                                             <ul class="amenities-list">
                                                                 <li class="first"><i class="fas-fa-bed"></i>
                                                                     ' . $row->bedrooms . ' Beds</li>
@@ -139,7 +182,7 @@ class PropertyController extends Controller
                     return 'Vacant';
                 })
                 ->addColumn('listing_status', function ($row) {
-                    if ($row->is_available == 0) {
+                    if ($row->status == 0) {
                         $listing_status = 'Listed';
                     } else {
                         $listing_status = 'Not Listed';
@@ -175,7 +218,7 @@ class PropertyController extends Controller
                                     </ul>
                                     </ul>';
 
-                                    return $action;
+                    return $action;
                 })
                 ->rawColumns(['Unit', 'current_status', 'future_status', 'listing_status', 'open_application', 'action'])
                 ->make(true);
@@ -248,5 +291,12 @@ class PropertyController extends Controller
             'is_available' => $request->is_available,
         ));
         return redirect()->route('property_details', $request->property_id)->with('success', 'Listing has been updated successfuly.');
+    }
+
+
+    public function units_details($id)
+    {
+        // $unit_details = 
+        return view('unit_details', get_defined_vars());
     }
 }

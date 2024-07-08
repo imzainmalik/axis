@@ -41,6 +41,16 @@ class Lease extends Model
     }
 
     /**
+     * Get the Property associated with the Lease
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    // public function Property(): HasOne
+    // {
+    //     return $this->hasOne(Property::class, 'foreign_key', 'local_key');
+    // }
+
+    /**
      * Get the user associated with the Lease
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
