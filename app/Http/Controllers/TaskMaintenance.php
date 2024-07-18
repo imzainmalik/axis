@@ -73,7 +73,7 @@ class TaskMaintenance extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     // dd($owner);
-                    return '<a href="' . route('edit_task_maintenance', $row->id) . '" class="btn btn-primary">Edit</a> ';
+                    return '<a href="' . route('edit_task_maintenance', $row->id) . '" class="black-btn">Edit</a> ';
                     // | '. $row->Owners->Unit->unit_name. 
                 })
 

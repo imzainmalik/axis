@@ -1,4 +1,7 @@
 <link rel="icon" href="{{ asset('assets/css/layout.css') }}" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css"
+    integrity="sha512-gMjQeDaELJ0ryCI+FtItusU9MkAifCZcGq789FrzkiM49D8lbDhoaUaIX4ASU187wofMNlgBJ4ckbrXM9sE6Pg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -29,9 +32,9 @@
                                             value="{{ old('email') }}" required name="email"
                                             placeholder="julianrenwoye@gmail.com" required>
                                         @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                         @enderror
                                     </div>
                                 </div>
@@ -40,18 +43,17 @@
                                         <div class="form-container">
                                             <div>
                                                 <label for="signupInputPassword">Password</label>
-                                                <input name="password" type="password" class=""
-                                                    id="signupInputPassword" aria-describedby="passwordHelp"
-                                                    value="" placeholder="•••••••••"
+                                                <input name="password" type="password" class="" id="signupInputPassword"
+                                                    aria-describedby="passwordHelp" value="" placeholder="•••••••••"
                                                     class="@error('password') is-invalid @enderror" name="password" />
                                                 <div class="showpass">
                                                     <i class="fas fa-eye"></i>
                                                     <input type="checkbox" onclick="myFunction()">
                                                 </div>
                                                 @error('password')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
                                                 @enderror
                                             </div>
                                         </div>

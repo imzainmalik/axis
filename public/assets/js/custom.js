@@ -232,6 +232,8 @@ function myFunction() {
     var dragStartY = 0;
     var dragStartScrollLeft = 0;
     var dragStartScrollTop = 0;
+    var pinchStartDistance = 0;
+    var lastPinchDistance = 0;
 
     // Zoom in button click event
     $('#zoom-in').click(function() {
@@ -246,28 +248,68 @@ function myFunction() {
         applyZoom();
     });
 
-    // Mouse down event for starting drag
-    mainMap.mousedown(function(event) {
-        isDragging = true;
-        dragStartX = event.pageX;
-        dragStartY = event.pageY;
+    // Mouse and touch event handlers for dragging
+    mainMap.on('mousedown touchstart', function(event) {
+        if (event.type === 'mousedown') {
+            isDragging = true;
+            dragStartX = event.pageX;
+            dragStartY = event.pageY;
+        } else if (event.type === 'touchstart' && event.originalEvent.touches.length === 1) {
+            isDragging = true;
+            var touch = event.originalEvent.touches[0];
+            dragStartX = touch.pageX;
+            dragStartY = touch.pageY;
+        }
+
         dragStartScrollLeft = mainMap.scrollLeft();
         dragStartScrollTop = mainMap.scrollTop();
     });
 
-    // Mouse move event for dragging
-    $(document).mousemove(function(event) {
+    $(document).on('mousemove touchmove', function(event) {
         if (isDragging) {
-            var deltaX = dragStartX - event.pageX;
-            var deltaY = dragStartY - event.pageY;
-            mainMap.scrollLeft(dragStartScrollLeft + deltaX);
-            mainMap.scrollTop(dragStartScrollTop + deltaY);
+            var currentX, currentY;
+
+            if (event.type === 'mousemove') {
+                currentX = event.pageX;
+                currentY = event.pageY;
+            } else if (event.type === 'touchmove' && event.originalEvent.touches.length === 1) {
+                var touch = event.originalEvent.touches[0];
+                currentX = touch.pageX;
+                currentY = touch.pageY;
+            }
+
+            if (typeof currentX !== 'undefined' && typeof currentY !== 'undefined') {
+                var deltaX = dragStartX - currentX;
+                var deltaY = dragStartY - currentY;
+                mainMap.scrollLeft(dragStartScrollLeft + deltaX);
+                mainMap.scrollTop(dragStartScrollTop + deltaY);
+            }
         }
     });
 
-    // Mouse up event for stopping drag
-    $(document).mouseup(function() {
+    $(document).on('mouseup touchend', function() {
         isDragging = false;
+    });
+
+    // Pinch gesture for zooming on touch devices
+    mainMap.on('touchstart', function(event) {
+        if (event.originalEvent.touches.length >= 2) {
+            var touch1 = event.originalEvent.touches[0];
+            var touch2 = event.originalEvent.touches[1];
+            pinchStartDistance = Math.hypot(touch2.pageX - touch1.pageX, touch2.pageY - touch1.pageY);
+            lastPinchDistance = pinchStartDistance;
+        }
+    });
+
+    mainMap.on('touchmove', function(event) {
+        if (event.originalEvent.touches.length >= 2) {
+            var touch1 = event.originalEvent.touches[0];
+            var touch2 = event.originalEvent.touches[1];
+            var currentPinchDistance = Math.hypot(touch2.pageX - touch1.pageX, touch2.pageY - touch1.pageY);
+            zoomLevel *= currentPinchDistance / lastPinchDistance;
+            lastPinchDistance = currentPinchDistance;
+            applyZoom();
+        }
     });
 
     // Function to apply zoom (adjust map-inner scaling)
