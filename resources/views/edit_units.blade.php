@@ -42,25 +42,25 @@
                         </div>
                         <div class="col-md-6">
                             <label for="">Unit number</label>
-                            <input type="number" name="unit_num" value="{{ $units->unit_num }}" required
+                            <input type="number" name="unit_num" min="0" value="{{ $units->unit_num }}" required
                                 class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="">Bedrooms</label>
-                            <input type="number" name="bedrooms" value="{{ $units->bedrooms }}" class="form-control">
+                            <input type="number" name="bedrooms" min="0" value="{{ $units->bedrooms }}" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="">Bathrooms</label>
-                            <input type="number" name="bathrooms" value="{{ $units->bathrooms }}" class="form-control">
+                            <input type="number" name="bathrooms" min="0" value="{{ $units->bathrooms }}" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="">Square feet</label>
-                            <input type="number" name="square_feet" value="{{ $units->square_feet }}" required
+                            <input type="number" name="square_feet" min="0" value="{{ $units->square_feet }}" required
                                 class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="">Rent amount</label>
-                            <input type="number" name="property_rent_amount" value="{{ $units->property_rent_amount }}"
+                            <input type="number" name="property_rent_amount" min="0" value="{{ $units->property_rent_amount }}"
                                 required class="form-control">
                         </div>
                         <div class="col-md-6">
