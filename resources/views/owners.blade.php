@@ -1,35 +1,35 @@
 @extends('layouts.app')
 @section('content')
-    <div class="main-area">
-        <div class="top-main">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="hello">
-                            <h6>All Owners!</h6>
-                        </div>
+<div class="main-area">
+    <div class="top-main">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="hello">
+                        <h6>All Owners!</h6>
                     </div>
-                    @include('includes.sub_header')
                 </div>
+                @include('includes.sub_header')
             </div>
         </div>
+    </div>
 
 
-        <div class="owners-sec1">
-            <div class="container-fluid">
+    <div class="owners-sec1">
+        <div class="container-fluid">
 
-                <div class="col-md-4">
-                    <div class="tenant-box create-owner">
-                        <div class="txt">
-                            <h4>{{ $owners->count() }} <span>Owners</span></h4>
-                            <a href="{{ route('add_owners') }}" class="black-btn">Create Owners</a>
-                        </div>
+            <div class="col-md-4">
+                <div class="tenant-box create-owner">
+                    <div class="txt">
+                        <h4>{{ $owners->count() }} <span>Owners</span></h4>
+                        <a href="{{ route('add_owners') }}" class="black-btn">Create Owners</a>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="one-row-elem">
-                            <!-- <div class="property-search">
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="one-row-elem">
+                        <!-- <div class="property-search">
                                     <input type="search" placeholder="Search Owners">
                                     <button><i class="fas fa-search"></i></button>
                                 </div>
@@ -40,7 +40,8 @@
                                         <li class="last"><a href="javascript:;">Sort By:Date</a></li>
                                     </ul>
                                 </ul> -->
-                        </div>
+                    </div>
+                    <div class="table-responsive">
                         <table class="table table-hover data-table">
                             <thead>
                                 <tr>
@@ -61,64 +62,65 @@
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @push('custom_js')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var table = $('.data-table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('owners') }}",
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'owner',
-                        name: 'owner'
-                    },
-                    {
-                        data: 'properties',
-                        name: 'properties'
-                    },
-                    {
-                        data: 'contact_Information',
-                        name: 'contact_Information'
-                    },
+<script type="text/javascript">
+$(document).ready(function() {
+    var table = $('.data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('owners') }}",
+        columns: [{
+                data: 'id',
+                name: 'id'
+            },
+            {
+                data: 'owner',
+                name: 'owner'
+            },
+            {
+                data: 'properties',
+                name: 'properties'
+            },
+            {
+                data: 'contact_Information',
+                name: 'contact_Information'
+            },
 
-                    {
-                        data: 'action',
-                        name: 'action',
-                        sortable: false,
-                    }
-                ]
-            });
-        });
+            {
+                data: 'action',
+                name: 'action',
+                sortable: false,
+            }
+        ]
+    });
+});
 
 
-        function deleteOwnerCofirm(id) {
-            Swal.fire({
-                title: "Do you want to delete this Owner?",
-                showDenyButton: true,
-                showCancelButton: true,
-                confirmButtonText: "Yes",
-                denyButtonText: `No`
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    $.ajax({
-                        'url': "/delete_owners/" + id + " ",
-                        'type': 'get',
-                        success: function(response) {
-                            Swal.fire("Owner Delete successfuly", "", "success");
-                            location.reload();
-                        }
-                    })
-                } else if (result.isDenied) {
-                    Swal.fire("Lease Inactivation Cancelled", "", "info");
+function deleteOwnerCofirm(id) {
+    Swal.fire({
+        title: "Do you want to delete this Owner?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        denyButtonText: `No`
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            $.ajax({
+                'url': "/delete_owners/" + id + " ",
+                'type': 'get',
+                success: function(response) {
+                    Swal.fire("Owner Delete successfuly", "", "success");
+                    location.reload();
                 }
-            });
+            })
+        } else if (result.isDenied) {
+            Swal.fire("Lease Inactivation Cancelled", "", "info");
         }
-    </script>
+    });
+}
+</script>
 @endpush

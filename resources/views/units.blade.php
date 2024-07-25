@@ -39,23 +39,23 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="">Unit number</label>
-                                <input type="number" name="unit_num" required class="form-control">
+                                <input type="number" name="unit_num" min="0" required class="form-control">
                             </div>
                             <div class="col-md-6">
                                 <label for="">Bedrooms</label>
-                                <input type="number" name="bedrooms" class="form-control">
+                                <input type="number" name="bedrooms" min="0" class="form-control">
                             </div>
                             <div class="col-md-6">
                                 <label for="">Bathrooms</label>
-                                <input type="number" name="bathrooms" class="form-control">
+                                <input type="number" name="bathrooms" min="0" class="form-control">
                             </div>
                             <div class="col-md-6">
                                 <label for="">Square feet</label>
-                                <input type="number" name="square_feet" required class="form-control">
+                                <input type="number" name="square_feet" min="0" required class="form-control">
                             </div>
                             <div class="col-md-6">
                                 <label for="">Rent amount</label>
-                                <input type="number" name="property_rent_amount" required class="form-control">
+                                <input type="number" name="property_rent_amount" min="0" required class="form-control">
                             </div>
                             <div class="col-md-6">
                                 <label for="">Available for rent</label>

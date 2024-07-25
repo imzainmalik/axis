@@ -14,7 +14,6 @@
          crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
- 
 <div class="signup">
     <div class="container-fluid">
         <div class="row align-items-center">
@@ -42,9 +41,9 @@
                                             value="{{ old('email') }}" required name="email"
                                             placeholder="julianrenwoye@gmail.com" required>
                                         @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                         @enderror
                                     </div>
                                 </div>
@@ -53,18 +52,17 @@
                                         <div class="form-container">
                                             <div>
                                                 <label for="signupInputPassword">Password</label>
-                                                <input name="password" type="password" class=""
-                                                    id="signupInputPassword" aria-describedby="passwordHelp"
-                                                    value="" placeholder="•••••••••"
+                                                <input name="password" type="password" class="" id="signupInputPassword"
+                                                    aria-describedby="passwordHelp" value="" placeholder="•••••••••"
                                                     class="@error('password') is-invalid @enderror" name="password" />
                                                 <div class="showpass">
                                                     <i class="fas fa-eye"></i>
                                                     <input type="checkbox" onclick="myFunction()">
                                                 </div>
                                                 @error('password')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
                                                 @enderror
                                             </div>
                                         </div>

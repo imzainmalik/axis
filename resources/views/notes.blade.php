@@ -26,8 +26,8 @@
         <div class="row">
             @if ($notes->count() > 0)
                 @foreach ($notes as $note)
-                    <div class="col-4">
-                        <div class="card">
+                    <div class="col-md-4">
+                        <div class="card notes-box">
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-8">
