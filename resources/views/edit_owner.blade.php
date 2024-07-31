@@ -72,9 +72,9 @@
                         <select name="units[]" class="form-control" id="units" multiple>
                             <option value=""></option>
                             @foreach ($property_owners as $property_owner)
-                            @php
-                            $get_units = App\Models\Unit::where('id', $property_owner->unit_id)->first();
-                            @endphp
+                              @php
+                                   $get_units = App\Models\Unit::where('id', $property_owner->unit_id)->first();
+                              @endphp
                             <option value="{{ $property_owner->unit_id }}" @if ($get_units->id ==
                                 $property_owner->unit_id) selected @endif>{{ $get_units->unit_name }}
                             </option>

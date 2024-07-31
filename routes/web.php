@@ -11,6 +11,7 @@ use App\Http\Controllers\OwnersController;
 use App\Http\Controllers\LeaseController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TaskMaintenance;
 
 
@@ -38,6 +39,7 @@ Route::get('/add-new-property', [PropertyController::class, 'add_new_property'])
 Route::post('/create_property', [PropertyController::class, 'create_property'])->name('create_property');
 Route::get('/properties', [PropertyController::class, 'properties'])->name('properties');
 Route::get('/property-details/{id}', [PropertyController::class, 'property_details'])->name('property_details');
+Route::get('/graph_filter', [PropertyController::class, 'graph_filter'])->name('graph_filter');
 
 // Units
 Route::get('/units', [PropertyController::class, 'units'])->name('units');
@@ -101,6 +103,15 @@ Route::get('/map/property/{id}', [MapController::class, 'property'])->name('map.
 Route::get('/get_map_data', [MapController::class, 'get_map_data'])->name('get_map_data');
 
 Route::get('/calender', [CalenderController::class, 'index'])->name('calender');
+
+// Reports
+Route::get('/report', [ReportController::class, 'index'])->name('report');
+Route::get('/current-tenant', [ReportController::class, 'current_tenant'])->name('current_tenant');
+Route::get('/rent-roll', [ReportController::class, 'rent_roll'])->name('rent_roll');
+Route::get('/upcoming-move-ins', [ReportController::class, 'upcoming_move_ins'])->name('upcoming_move_ins');
+Route::get('/upcoming-move-outs', [ReportController::class, 'upcoming_move_outs'])->name('upcoming_move_outs');
+
+
 // CronJobs
 Route::get('/makeLogForUnpaidRent', [Cronjob::class, 'makeLogForUnpaidRent'])->name('makeLogForUnpaidRent');
 

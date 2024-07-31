@@ -22,5 +22,12 @@
             text: "{{ session('success') }}",
         });
     @endif
+
+
+    function graph_filter(){
+          var property_id = $('#property_filter').val();
+          console.log(property_id);
+          window.location.href = "/home?property_id="+property_id+"";
+    }
     
 </script>

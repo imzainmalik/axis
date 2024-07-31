@@ -50,13 +50,13 @@
                                 <div class="legend">
                                     <div class="legend-item">
                                         <div class="legend-color" style="background-color: #FF3A29;"></div>
-                                        <div class="legend-text">Vacant <span>{{ $occupancyRate['vacant_percentage'] }}% -
-                                                {{ $occupancyRate['vacant'] }} Units</span></div>
+                                        <div class="legend-text">Occupied <span>{{ $occupancyRate['occupied_percentage'] }}% -
+                                                {{ $occupancyRate['occupied'] }} Units</span></div>
                                     </div>
                                     <div class="legend-item">
                                         <div class="legend-color" style="background-color: #FFE5D3;"></div>
-                                        <div class="legend-text">Occupied <span>{{ $occupancyRate['occupied_percentage'] }}%
-                                                - {{ $occupancyRate['occupied'] }} Units</span> </div>
+                                        <div class="legend-text">Vacant <span>{{ $occupancyRate['vacant_percentage'] }}%
+                                                - {{ $occupancyRate['vacant'] }} Units</span> </div>
                                     </div>
                                 </div>
                             </div>
