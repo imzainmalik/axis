@@ -38,7 +38,7 @@
                                 @foreach ($get_properties as $item)
                                     <option value="{{ $item->id }}">
                                         {{ $item->property_name . ' ' . '(' . $item->address . ')' }}</option>
-                                @endforeach
+                                @endforeach 
                             </select>
                         </div>
                         <div class="col-6">

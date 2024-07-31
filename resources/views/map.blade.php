@@ -15,14 +15,17 @@
             </div>
         </div>
 
-        @php
-            // $butique = App\Models\Unit::where('')
-        @endphp
+        <style>
+            .red {
+                background-color: red;
+                color: white
+            }
+        </style>
 
         <div class="main-map">
             <!-- <div class="main-map-img">
-                                        <img src="../public/assets/images/map-main.png" alt="">
-                                    </div> -->
+                                                            <img src="../public/assets/images/map-main.png" alt="">
+                                                        </div> -->
             <div class="map-inner">
                 <ul class="map-list1">
                     <li>
@@ -874,7 +877,7 @@
         <div class="modal fade" id="propertyModal_{{ $item->unit_num }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <div class="modal-content"> 
+                <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">{{ $item->unit_name }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -882,7 +885,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <strong>Sqr ft</strong>: <span>{{ $item->square_feet }}</span><br><br>   
+                        <strong>Sqr ft</strong>: <span>{{ $item->square_feet }}</span><br><br>
                         <strong>Bedrooms</strong>: <span>{{ $item->bedrooms }}</span><br><br>
                         <strong>Bathrooms</strong>: <span>{{ $item->bathrooms }}</span><br><br>
                         <strong>Rent</strong>: <span>FCFA {{ $item->property_rent_amount }}</span><br><br>
@@ -911,32 +914,48 @@
                 type: "GET",
                 dataType: "json",
                 success: function(response) {
+                    var key = 0;
                     // Ensure response.units is an array and iterate over it
                     if (Array.isArray(response.units)) {
-                        const links = document.querySelectorAll('a');
+                        // Assuming `response` is the data you received from the server
+                        response.units.forEach(unit => {
+                            // Find all <p> elements
+                            let pElements = document.querySelectorAll('a');
 
-                        links.forEach(link => {
-                            // Check if the <p> element exists within the <a> element
-                            const pElement = link.querySelector('p');
-                            if (pElement) {
-                                // Iterate through each unit to find a match
-                                response.units.forEach(unit => {
-                                    // Check if the <p> element's inner HTML contains the unit identifier
-                                    if (pElement.innerHTML.includes(unit)) {
-                                        // Change the class to "green"
-                                        link.className = 'green';
-                                        // link.id = `unit-${unit}`;
-                                        link.setAttribute('data-toggle', 'modal');
-                                        link.setAttribute('data-target',
-                                            '#propertyModal_' + unit + '');
+                            // Iterate through each <p> element to find the one that contains the unit number
+                            pElements.forEach(pElement => {
+                                if (pElement.innerHTML.includes(unit.unit_num)) {
+                                    // Check if there is pending rent for this unit
+                                    let hasPendingRent = response.pending_rent[unit
+                                        .id] !== undefined && response.pending_rent[unit
+                                            .id].length > 0;
 
-                                        // const modalBody = document.querySelector('#exampleModal');
-                                        // modalBody.id = 'propertyModal_'+unit+''
+                                    // Log the result for debugging
+                                    console.log(
+                                        response.pending_rent[unit.id]
+                                        // `Unit ${unit.unit_num} has pending rent: ${hasPendingRent}`
+                                    );
 
+                                    // Find the link inside the <p> element
+                                    let link = pElement.querySelector('p');
+
+                                    if (pElement.innerHTML.includes(unit.unit_num)) {
+                                        // if (link) {
+                                            // Set the class based on pending rent status
+                                            if (hasPendingRent == true) {
+                                                pElement.className = 'green';
+                                            } else {
+                                                pElement.className = 'red';
+                                            }
+                                            link.setAttribute('data-toggle', 'modal');
+                                            link.setAttribute('data-target',
+                                                `#propertyModal_${unit.unit_num}`);
+                                        // }
                                     }
-                                });
-                            }
+                                }
+                            });
                         });
+
                     }
                 }
             });
