@@ -78,7 +78,8 @@
                                 <th scope="col">Own Price</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody>  
+                         
                                 @foreach ($cjProducts['variants'] as $variants)
                                     <tr>
                                         <th scope="row">

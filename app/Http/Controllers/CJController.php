@@ -247,7 +247,7 @@ class CJController extends Controller
           $product->save();
 
           foreach($request->variantKey as $varients){
-               $stock = new ProductStock();
+               $stock = new ProductStock;
                $stock->product_id = $product->id;
                $stock->qty = 3000;
                $stock->variant = $varients;
