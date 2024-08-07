@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
+use App\Models\ProductStock;
 use Illuminate\Support\Facades\Artisan;
 use Twilio\Http\CurlClient;
 
@@ -115,42 +116,43 @@ class CJController extends Controller
 
      public function store(Request $request)
      {
+          // dd();
+          $imageUrl = $request->product_image;
 
-          // $imageUrl = 'https://cf.cjdropshipping.com/93604f1e-de8d-44b4-aded-11e9f13f46ba.jpg';
-
-          // // Generate a new file name (e.g., using a timestamp)
-          // $newFileName = 'downloaded_image_' . time() . '.jpg';
+          // Generate a new file name (e.g., using a timestamp)
+          $newFileName = 'downloaded_image_' . time() . '.jpg';
           
-          // // Directory where the image will be saved
-          // // dd(public_path('uploads/'));
-          // $directory = public_path('uploads/');
+          // Directory where the image will be saved
+          // dd(public_path('uploads/'));
+          $directory = public_path('\uploads/');
           
-          // // Ensure the directory exists
-          // if (!is_dir($directory)) {    
-          //     mkdir($directory, 0777, true);
-          // }
+          // Ensure the directory exists
+          if (!is_dir($directory)) {    
+              mkdir($directory, 0777, true);
+          }
           
-          // // Full path to the destination file
-          // $destination = $directory . $newFileName;
+          // Full path to the destination file
+          $destination = $directory . $newFileName;
           
-          // // Use file_get_contents to get the image content
-          // $imageContent = file_get_contents($imageUrl);
+          // Use file_get_contents to get the image content
+          $imageContent = file_get_contents($imageUrl);
           
-          // if ($imageContent === FALSE) {
-          //     dd('Failed to download the image.');
-          // }
+          if ($imageContent === FALSE) {
+              dd('Failed to download the image.');
+          }
           
-          // // Use file_put_contents to save the image
-          // if (file_put_contents($destination, $imageContent) === FALSE) {
-          //     dd('Failed to save the image.');
-          // }
-          
+          // Use file_put_contents to save the image
+          if (file_put_contents($destination, $imageContent) === FALSE) {
+              dd('Failed to save the image.');
+          }
+               // dd($newFileName);
           // dd($request->category);
           $get_category = Category::where('cj_category_id', $request->category)
                ->first();
 
           $product = new Product;
           $product->name = $request->name;
+          $product->thumbnail_img = $newFileName;
           $product->added_by = 'admin';
           $product->user_id = auth()->user()->id;
           $product->category_id = $get_category->id;
@@ -206,6 +208,8 @@ class CJController extends Controller
                          array_push($attribute_val_blank_array, $varients_array);
                          // dd(json_encode($attribute_val_blank_array));
                          // $attributes_value->save();
+
+
                     }
                } else {
                     $create_atribute = new Attribute;
@@ -241,7 +245,16 @@ class CJController extends Controller
           $product->slug = $slug;
           
           $product->save();
-         
+
+          foreach($request->variantKey as $varients){
+               $stock = new ProductStock();
+               $stock->product_id = $product->id;
+               $stock->qty = 3000;
+               $stock->variant = $varients;
+               $stock->price = $request->own_price;
+               $stock->save();
+          }
+  
 
           $request->merge(['product_id' => $product->id]);
 
